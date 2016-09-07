@@ -1,0 +1,11 @@
+1. Geef goede benamingen voor je commits, een daadwerkelijke beschrijving van wat je gemaakt hebt.
+
+2. ALTIJD SYNCEN NADAT JE GEPUSHED HEBT.
+
+3. ALTIJD SYNCEN VOORDAT JE BEZIG GAAT MET IETS.
+
+4. Nooit in dezelfde folder, file of sceneals je teamgenoot werken, OVERLEG wanneer je in diegene's scene moet.
+
+5. Als er changes in Unity settings moeten worden gedaan (denk aan lighting, tags, layers en quality), overleg met je groep dat zij alles commiten en even uit Unity gaan om dit te fixen.
+
+6. Het is in general wel slim om te overleggen met je program matties of je artist vriendjes wanneer je wat gaat doen zodat er geen issues bij komen.
