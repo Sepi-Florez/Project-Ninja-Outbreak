@@ -5,7 +5,8 @@ public class StandardEnemy : EnemyVirtual {
 
     public bool detected;
     public Transform alarmObj;
-    private float waitTime = 1f;
+    private float waitTime = 0.5f;
+    public GameObject player;
 
     public void Start () {
         patrolPoint = patrolPointOne;
@@ -13,20 +14,24 @@ public class StandardEnemy : EnemyVirtual {
 
     public void Update () {
         Movement ();
+        Patrol ();
+        AlarmTrigger ();
     }
 
     public override void Movement () {
-        float moveTo = moveSpeed * Time.deltaTime;
         if (detected == true) {
             onPatrol = false;
             StartCoroutine (WaitForAlarm ());
         }
+    }
+        public void Patrol () {
+        float moveTo = moveSpeed * Time.deltaTime;
         if (onPatrol == true) {
             transform.LookAt (patrolPoint.transform.position);
             detected = false;
             transform.position = Vector3.MoveTowards (transform.position, patrolPoint.transform.position, moveTo);
             if (transform.position == patrolPoint.transform.position) {
-                if(patrolPoint == patrolPointOne) {
+                if (patrolPoint == patrolPointOne) {
                     patrolPoint = patrolPointTwo;
                 }
                 else {
@@ -35,11 +40,26 @@ public class StandardEnemy : EnemyVirtual {
             }
         }
     }
+    public void AlarmTrigger () {
+        if (alarmObj != null) {
+            if (transform.position == alarmObj.transform.position) {
+                StartCoroutine (AlarmOn ());
+                Destroy (alarmObj.gameObject);
+            }
+        }
+    }
     IEnumerator WaitForAlarm () {
         float moveTo = moveSpeed * Time.deltaTime;
         yield return new WaitForSeconds (waitTime);
-        transform.LookAt (alarmObj);
-        transform.position = Vector3.MoveTowards (transform.position, alarmObj.position, moveTo * 2);
-
+        if (alarmObj != null) {
+            transform.LookAt (alarmObj);
+            transform.position = Vector3.MoveTowards (transform.position, alarmObj.position, moveTo * 2);
+        }
+    }
+    IEnumerator AlarmOn () {
+        yield return new WaitForSeconds (waitTime);
+        player.GetComponent<SpawnEnemies> ().spawnOn = true;
+        player.GetComponent<SpawnEnemies> ().Spawn ();
+        StopCoroutine (AlarmOn ());
     }
 }
