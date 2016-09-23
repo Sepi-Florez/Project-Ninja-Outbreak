@@ -5,14 +5,6 @@ using UnityEngine.UI;
 
 public class Menu : MonoBehaviour {
 	
-	private Animator anim;
-	private CanvasGroup canvasGroup;
-
-	public void Awake(){
-		anim = GetComponent<Animator>();
-		canvasGroup = GetComponent<CanvasGroup>();
-	}
-	
 	public void menu (int i) {
 		switch(i){
 			case 0:

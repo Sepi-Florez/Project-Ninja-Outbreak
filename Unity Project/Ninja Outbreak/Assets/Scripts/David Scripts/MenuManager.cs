@@ -7,10 +7,13 @@ public class MenuManager : MonoBehaviour {
 	public GameObject[] menus;
 	GameObject currentMenu;
 	public void Awake () {
-			currentMenu = menus[0];
-			currentMenu.SetActive(true);
-			anim = currentMenu.GetComponent<Animator>();
-			anim.SetBool("IsOpen",true);
+		for(int a = 0; a < menus.Length; a++){
+			menus[a].SetActive(false);
+		}
+		currentMenu = menus[0];
+		currentMenu.SetActive(true);
+		anim = currentMenu.GetComponent<Animator>();
+		anim.SetBool("IsOpen",true);
 	}
 	public void ChangeMenu (GameObject menu) {
 		anim.SetBool("IsOpen", false);
