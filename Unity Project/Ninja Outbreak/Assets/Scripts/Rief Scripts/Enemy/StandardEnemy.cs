@@ -2,11 +2,11 @@
 using System.Collections;
 
 public class StandardEnemy : EnemyVirtual {
-    //moet op de AlertGuard.
-    public bool detected; //laten zoals het is.
-    public Transform alarmObj; //het alarm waar de enemy naartoe moet lopen.
-    private float waitTime = 0.5f; //aanpassen als je de waittime niet genoeg vind nadat je detected bent.
-    public GameObject player; //main character.
+
+    public bool detected;
+    public Transform alarmObj;
+    private float waitTime = 0.5f;
+    public GameObject player;
 
     public void Start () {
         patrolPoint = patrolPointOne;
@@ -59,7 +59,7 @@ public class StandardEnemy : EnemyVirtual {
     IEnumerator AlarmOn () {
         yield return new WaitForSeconds (waitTime);
         player.GetComponent<SpawnEnemies> ().spawnOn = true;
-        player.GetComponent<SpawnEnemies> ().SpawnActive ();
+        player.GetComponent<SpawnEnemies> ().Spawn ();
         StopCoroutine (AlarmOn ());
     }
 }
