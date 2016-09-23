@@ -6,6 +6,7 @@ public abstract class EnemyVirtual : MonoBehaviour {
     //hoeft nergens op.
     public float moveSpeed;
     public bool onPatrol;
+    public bool detected;
     public GameObject patrolPoint;
     public GameObject patrolPointOne;
     public GameObject patrolPointTwo;

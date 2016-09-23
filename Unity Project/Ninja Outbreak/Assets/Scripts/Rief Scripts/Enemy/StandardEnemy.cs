@@ -3,7 +3,6 @@ using System.Collections;
 
 public class StandardEnemy : EnemyVirtual {
     //moet op de AlertGuard.
-    public bool detected; //laten zoals het is.
     public Transform alarmObj; //het alarm waar de enemy naartoe moet lopen.
     private float waitTime = 0.5f; //aanpassen als je de waittime niet genoeg vind nadat je detected bent.
     public GameObject player; //main character.
@@ -31,12 +30,7 @@ public class StandardEnemy : EnemyVirtual {
             detected = false;
             transform.position = Vector3.MoveTowards (transform.position, patrolPoint.transform.position, moveTo);
             if (transform.position == patrolPoint.transform.position) {
-                if (patrolPoint == patrolPointOne) {
-                    patrolPoint = patrolPointTwo;
-                }
-                else {
-                    patrolPoint = patrolPointOne;
-                }
+                StartCoroutine (WaitToMove ());
             }
         }
     }
@@ -46,6 +40,16 @@ public class StandardEnemy : EnemyVirtual {
                 StartCoroutine (AlarmOn ());
                 Destroy (alarmObj.gameObject);
             }
+        }
+    }
+    IEnumerator WaitToMove () {
+        if (patrolPoint == patrolPointOne) {
+            yield return new WaitForSeconds (1);
+            patrolPoint = patrolPointTwo;
+        }
+        else {
+            yield return new WaitForSeconds (1);
+            patrolPoint = patrolPointOne;
         }
     }
     IEnumerator WaitForAlarm () {
