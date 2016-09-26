@@ -1,27 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-/*[System.Serializable]
-public class NodeSystem : Waypoints
-{
-    public WaypointPath waypointPath;
-    public LineRenderer lineRenderer;
-    void createShape()
-    {
-        lineRenderer.SetVertexCount(waypointPath.points.Length);
-        for (int i = 0; i <= waypointPath.points.Length; i++)
-        {
-            lineRenderer.SetPosition(i, new Vector3(waypointPath.points[i].x, waypointPath.points[i].y, 0));
-        }
-    }
-}*/
 [System.Serializable]
 public class WaypointPath
 {
     public string name;
-    public Vector2[] points;
+    public Vector3[] positions;
 }
-
 public class Waypoints : MonoBehaviour
 {
     public WaypointPath[] waypoints;
@@ -29,60 +14,59 @@ public class Waypoints : MonoBehaviour
 
 public class CutSystem : MonoBehaviour
 {
-    public List<Vector3> hitPoints = new List<Vector3>();
-    public List<List<Vector3>> checkLists = new List<List<Vector3>>();
-
-    public int nextPoint, pointCount;
-    private bool slashMode;
-    public float timer, timerMax, mouseZVal;
+    private int mouseObjective, randomWaypoint;
+    private float timer;
+    public float timerMax, mouseZVal;
+    private bool inSlashMode;
     public GameObject trail;
-
     private WaypointPath waypointPath;
     public WaypointPath[] waypoints;
     public LineRenderer lineRenderer;
 
-    /*void createShape()
+    void Start()
     {
-        lineRenderer.SetVertexCount(waypoints.Length);
-        for (int i = 0; i <= waypoints.Length; i++)
-        {
-            lineRenderer.SetPosition(i, new Vector3(waypointPath.points[i].x, waypointPath.points[i].y, 0));
-        }
-    }*/
-
+        RandomShape();
+    }
     void Update()
     {
-        if (slashMode == true)
+        if ((inSlashMode == true) || (Input.GetButton("Activate") && inSlashMode == false))
         {
-            InSlashMode();
-        }
-        if (Input.GetButton("Activate") && slashMode == false)
-        {
-            InSlashMode();
+            SlashMode();
         }
     }
-   void InSlashMode ()
+   void SlashMode ()
     {
-        slashMode = true;
+        inSlashMode = true;
         timer += Time.deltaTime;
 
+        //als je Lmuisknop indrukt komt er trail achter muis
         if (Input.GetMouseButton(0))
         {
             Vector3 mouseposition = GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, mouseZVal));
             trail.transform.position = mouseposition;
 
-            if (Vector3.Distance(mouseposition, hitPoints[nextPoint]) <= 0.5f)
+            //als distance van muis tot mouseObjective minder dan 0.5 is dan telt hij een punt op bij mouseObjective
+            if (Vector3.Distance(mouseposition, waypoints[randomWaypoint].positions[mouseObjective]) <= 0.5f)
             {
-                if (nextPoint == pointCount) { Succeeded(); }
-                else { nextPoint++; }
+                if (mouseObjective == waypoints.Length - 1 || mouseObjective >= waypoints.Length - 1) { Succeeded(); }
+                else { mouseObjective++; }
             }
         }
-        // if (Time.time >= endTime) //als de timer is ge-exceed zul je ALTIJD falen
-        if (timer >= timerMax * Time.timeScale)
+
+        if (timer >= timerMax * Time.timeScale)//als de timer is ge-exceed zul je ALTIJD falen
         {
             Failed();
             print("TimerExceeded");
             timer = 0;
+        }
+    }
+    void RandomShape() //word ook gecalled als het script (of functie) eerste keer word gecalled
+    {
+        if (waypoints.Length > 0)
+        {
+            lineRenderer.SetVertexCount(waypoints.Length - 1);
+            randomWaypoint = Random.Range(0, waypoints.Length - 1);
+            lineRenderer.SetPositions(waypoints[randomWaypoint].positions);
         }
     }
     void Succeeded()
@@ -90,9 +74,11 @@ public class CutSystem : MonoBehaviour
         //Slowmo zo je andere kan selecten Or Quit als je niet select
 
         //has selected
+        //RandomShape();
         ///////////////
         //hasn't selected
-        slashMode = false;
+        RandomShape();
+        inSlashMode = false;
         timer = 0;
         print("Succeeded");
         return;
@@ -102,7 +88,8 @@ public class CutSystem : MonoBehaviour
     void Failed()
     {
         //Respawn();
-        slashMode = false;
+        RandomShape();
+        inSlashMode = false;
         timer = 0;
         print("Failed");
         return;
