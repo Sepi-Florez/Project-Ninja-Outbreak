@@ -14,17 +14,14 @@ public class Shuriken : MonoBehaviour {
 
         if (Input.GetButtonDown("Fire2"))
         {
-            Vector3 sp = Camera.main.WorldToScreenPoint(shurikenSpawn.position);
-            Vector3 dir = (Input.mousePosition - sp).normalized;
-            shuriken.GetComponent<Rigidbody2D>().AddForce(dir * 400);
+            var pos = Input.mousePosition;
+            pos.z = transform.position.z - Camera.main.transform.position.z;
+            pos = Camera.main.ScreenToWorldPoint(pos);
 
-            //Instantiate(shuriken , shurikenSpawn.position, Quaternion.identity);
-            
+            var q = Quaternion.FromToRotation(Vector3.up, pos - transform.position);
+            var go = Instantiate(shuriken, shurikenSpawn.position, q);
+            //go.rigidbody2D.AddForce(go.transform.up * 500.0);
         }
-    
-    }
-    void OnCollissionEnter()
-    {
-        //Destroy(shuriken);
     }
 }
+ 
