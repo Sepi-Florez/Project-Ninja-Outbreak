@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
-
 [System.Serializable]
 public class WaypointPath
 {
@@ -38,21 +36,17 @@ public class CutSystem : MonoBehaviour
     {
         inSlashMode = true;
         timer += Time.deltaTime;
-
-        //als je Lmuisknop indrukt komt er trail achter muis
         if (Input.GetMouseButton(0))
         {
             Vector3 mouseposition = GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, mouseZVal));
             trail.transform.position = mouseposition;
-
-            //als distance van muis tot mouseObjective minder dan 0.5 is dan telt hij een punt op bij mouseObjective
-            if (Vector3.Distance(mouseposition, waypoints[randomWaypoint].positions[mouseObjective]) <= 0.5f)
+            //Debug.DrawLine(waypoints[randomWaypoint].positions[mouseObjective] + transform.position, new Vector3(waypoints[randomWaypoint].positions[mouseObjective].x, waypoints[randomWaypoint].positions[mouseObjective].y, waypoints[randomWaypoint].positions[mouseObjective].z + 20)+ transform.position, Color.red);
+            if (Vector3.Distance(mouseposition, waypoints[randomWaypoint].positions[mouseObjective] + transform.position) <= 0.5f)
             {
                 if (mouseObjective == waypoints.Length - 1 || mouseObjective >= waypoints.Length - 1) { Succeeded(); }
                 else { mouseObjective++; }
             }
         }
-
         if (timer >= timerMax * Time.timeScale)//als de timer is ge-exceed zul je ALTIJD falen
         {
             Failed();

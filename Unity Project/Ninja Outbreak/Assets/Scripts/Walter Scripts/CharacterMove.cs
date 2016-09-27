@@ -38,6 +38,10 @@ public class CharacterMove : MonoBehaviour
     }
     public void CameraBehaviour()
     {
+        if(camPos.position.y >= 9)
+        {
+
+        }
         if (Input.GetButton("Right") || Input.GetButton("Left"))
         {
             if (Input.GetButton("Right"))
