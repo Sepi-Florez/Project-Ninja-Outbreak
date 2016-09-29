@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class MenuManager : MonoBehaviour {
-    public bool Main;
+    public bool main;
     public bool gameToggle;
 	Animator anim;
 	public GameObject[] menus;
@@ -14,7 +14,7 @@ public class MenuManager : MonoBehaviour {
 		currentMenu = menus[0];
         anim = currentMenu.GetComponent<Animator>();
         currentMenu.SetActive(true);
-        if (Main == true) {
+        if (main == true) {
             
             anim.SetBool("IsOpen", true);
         }
@@ -22,19 +22,21 @@ public class MenuManager : MonoBehaviour {
         
 	}
 	public void ChangeMenu (GameObject menu) {
+        print("Menu Change");
 		anim.SetBool("IsOpen", false);
 		menu.SetActive(true);
 		anim = menu.GetComponent<Animator>();
 		menu.SetActive(true);
 		anim.SetBool("IsOpen", true);
 		currentMenu = menu;
+        main = true;
 	}
 	public void Update () {
         Escape();
 	}
     public void Escape() {
         if (Input.GetButtonDown("Cancel")) {
-            if (Main == false) {
+            if (main == false) {
                 InGameChange();
             }
             else {
@@ -53,5 +55,6 @@ public class MenuManager : MonoBehaviour {
         currentMenu = menus[0];
         anim = currentMenu.GetComponent<Animator>();
         anim.SetBool("IsOpen", true);
+        main = false;
     }
 }

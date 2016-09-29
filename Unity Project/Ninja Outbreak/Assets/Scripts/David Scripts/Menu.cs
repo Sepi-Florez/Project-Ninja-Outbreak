@@ -21,7 +21,8 @@ public class Menu : MonoBehaviour {
 			case 4:
 				break;
 			case 5:
-				break;
+                Application.LoadLevel("MainMenu");
+                break;
 			case 6:
 				Application.Quit();
 				break;
