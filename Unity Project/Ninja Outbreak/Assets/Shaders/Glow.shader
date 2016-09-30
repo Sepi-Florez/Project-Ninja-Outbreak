@@ -6,7 +6,6 @@
 		_Color("Color", Color) = (1,1,1,1)
 		_Multiplier("Multiplier", Int) = 1
 	}
-
 	SubShader
 	{
 		Tags{ "Queue" = "Transparent" }

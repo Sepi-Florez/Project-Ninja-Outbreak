@@ -1,7 +1,4 @@
-// Per pixel bumped refraction.
-// Uses a normal map to distort the image behind, and
-// an additional texture to tint the color.
-Shader "ExplosionRipple"
+Shader "Custom/ExplosionRipple"
 {
 	Properties
 	{
@@ -12,8 +9,10 @@ Shader "ExplosionRipple"
 	}
 	Category
 	{
-		// We must be transparent, so other objects are drawn before this one.
-		Tags { "Queue"="Transparent" "RenderType"="Transparent" }
+		Lighting Off
+		Cull back
+		Blend SrcAlpha OneMinusSrcAlpha
+		Tags{ Queue = Transparent "RenderType" = "Transparent"}
 
 		SubShader
 		{
@@ -21,16 +20,11 @@ Shader "ExplosionRipple"
 			// We can access the result in the next pass as _GrabTexture
 			GrabPass
 			{
-				Name "BASE"
 				Tags { "LightMode" = "Always" }
 			}
-			// Main pass: Take the texture grabbed above and use the bumpmap to perturb it
-			// on to the screen
 			Pass
 			{
-				Name "BASE"
 				Tags { "LightMode" = "Always" }
-
 				CGPROGRAM
 				#pragma vertex vert
 				#pragma fragment frag
@@ -99,16 +93,13 @@ Shader "ExplosionRipple"
 			ENDCG
 			}
 		}
-		// Fallback for older cards and Unity non-Pro
 		SubShader
 		{
 			Blend DstColor Zero
 			Pass
 			{
-				Name "BASE"
 				SetTexture [_MainTex] {	combine texture }
 			}
 		}
-
 	}
 }
