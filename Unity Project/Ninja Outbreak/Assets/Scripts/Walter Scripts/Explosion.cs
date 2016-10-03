@@ -12,7 +12,7 @@ class Explosion : MonoBehaviour
         if (Input.GetButton("Jump")) { f1 = true; }
         if (f1 == true)
         {
-            material.color = new Color(color2.r, color2.g, color2.b, color2.a - (fadePerSecond/10 * Time.deltaTime));
+            material.color = new Color(color2.r, color2.g, color2.b, color2.a - (fadePerSecond/20 * Time.deltaTime));
             if (transform.localScale.y <= 20)
             {
                 transform.localScale += new Vector3(fadePerSecond, fadePerSecond, fadePerSecond) * Time.deltaTime;

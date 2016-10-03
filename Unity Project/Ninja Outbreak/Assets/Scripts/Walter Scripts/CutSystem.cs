@@ -1,13 +1,9 @@
 ﻿using UnityEngine;
 [System.Serializable]
-public class WaypointPath
+public class Waypoints
 {
     public string name;
     public Vector3[] positions;
-}
-public class Waypoints : MonoBehaviour
-{
-    public WaypointPath[] waypoints;
 }
 
 public class CutSystem : MonoBehaviour
@@ -17,8 +13,7 @@ public class CutSystem : MonoBehaviour
     public float timerMax, mouseZVal;
     private bool inSlashMode;
     public GameObject trail;
-    private WaypointPath waypointPath;
-    public WaypointPath[] waypoints;
+    public Waypoints[] waypoints;
     public LineRenderer lineRenderer;
 
     void Start()
@@ -66,7 +61,6 @@ public class CutSystem : MonoBehaviour
     void Succeeded()
     {
         //Slowmo zo je andere kan selecten Or Quit als je niet select
-
         //has selected
         //RandomShape();
         ///////////////

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 public class CharacterMove : MonoBehaviour
 {
+    public CharacterController controller;
     public float walkSpeed = 5f, runSpeed = 20f, jumpSpeed = 12f, gravity = 30f, increase = 2f, cInFront = 9f;
     private float speed;
     private Vector3 moveDirection = Vector3.zero, camOrigin = new Vector3(0, 5, -15);
@@ -9,7 +10,6 @@ public class CharacterMove : MonoBehaviour
     void Update()
     {
         CameraBehaviour();
-        CharacterController controller = GetComponent<CharacterController>();
         if (controller.isGrounded)
         {
             if (Input.GetAxis("Horizontal") != 0f)
@@ -31,6 +31,17 @@ public class CharacterMove : MonoBehaviour
         }
         moveDirection.y -= gravity * Time.deltaTime;
         controller.Move(moveDirection * Time.deltaTime);
+    }
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (!controller.isGrounded && hit.normal.y < 0.1f && hit.normal.y > -1f)
+        {
+            if (Input.GetButton("Jump"))
+            {
+                moveDirection.y = jumpSpeed;
+            }
+            Debug.DrawRay(hit.point, hit.normal, Color.blue, 0.35f);
+        }
     }
     void ClimbOnWall()
     {
