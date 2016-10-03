@@ -8,7 +8,7 @@ public class Menu : MonoBehaviour {
 	public void menu (int i) {
 		switch(i){
 			case 0:
-				print("Start Game");
+                Application.LoadLevel("IngameMenu");
 				break;
 			case 1: 
 				print("Continue from last save");
