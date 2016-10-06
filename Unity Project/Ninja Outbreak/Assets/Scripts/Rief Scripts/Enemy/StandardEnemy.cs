@@ -5,7 +5,6 @@ public class StandardEnemy : EnemyVirtual {
     //moet op de AlertGuard.
     public Transform alarmObj; //het alarm waar de enemy naartoe moet lopen.
     private float waitTime = 0.5f; //aanpassen als je de waittime niet genoeg vind nadat je detected bent.
-    public GameObject player; //main character.
 
     public void Start () {
         patrolPoint = patrolPointOne;

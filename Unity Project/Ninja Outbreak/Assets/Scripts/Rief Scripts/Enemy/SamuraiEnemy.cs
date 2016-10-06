@@ -5,12 +5,15 @@ using System;
 public class SamuraiEnemy : EnemyVirtual {
 
     public bool standStill; //zet dit op true als je niet wilt dat ie patrolled.
+    public bool justLooking; //Aanzetten als enemy alleen moet rondkijken.
+    public int looked;
 
 	void Start () {
 	
 	}
     void Update () {
         Movement ();
+        IsDetected ();
     }
     public override void Movement () {
         float moveTo = moveSpeed * Time.deltaTime;
@@ -19,11 +22,18 @@ public class SamuraiEnemy : EnemyVirtual {
             detected = false;
             transform.position = Vector3.MoveTowards (transform.position, patrolPoint.transform.position, moveTo);
             if (transform.position == patrolPoint.transform.position) {
-                StartCoroutine (WaitToMove ());
+                StartCoroutine (LookAround ());
             }
         }
         else if(standStill == true){
             StartCoroutine (LookAround ());
+        }
+    }
+    public void IsDetected () {
+        if (detected == true) {
+            StopAllCoroutines ();
+            transform.LookAt (player.transform.position);
+            transform.position = Vector3.MoveTowards (transform.position, player.transform.position, moveSpeed * Time.deltaTime);
         }
     }
     IEnumerator WaitToMove () {
@@ -38,8 +48,15 @@ public class SamuraiEnemy : EnemyVirtual {
     }
     IEnumerator LookAround () {
         standStill = false;
-        transform.Rotate (0, 180, 0);
         yield return new WaitForSeconds (3);
-        StartCoroutine (LookAround ());
+        transform.Rotate (0, 180, 0);
+        looked++;
+        if (looked == 3 && justLooking == true) {
+            StopCoroutine (LookAround ());
+            StartCoroutine (WaitToMove ());
+        }
+        else {
+            StartCoroutine (LookAround ());
+        }
     }
 }
