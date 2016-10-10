@@ -6,7 +6,6 @@ public class CharacterMove : MonoBehaviour
     private float speed;
     private Vector3 moveDirection = Vector3.zero, camOrigin = new Vector3(0, 5, -15);
     public Transform camPos;
-
     void Update()
     {
         CameraBehaviour();
@@ -20,7 +19,6 @@ public class CharacterMove : MonoBehaviour
             {
                 speed -= 1;
             }
-
             moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
             moveDirection = transform.TransformDirection(moveDirection);
             moveDirection *= speed;
@@ -42,10 +40,6 @@ public class CharacterMove : MonoBehaviour
             }
             Debug.DrawRay(hit.point, hit.normal, Color.blue, 0.35f);
         }
-    }
-    void ClimbOnWall()
-    {
-
     }
     public void CameraBehaviour()
     {
