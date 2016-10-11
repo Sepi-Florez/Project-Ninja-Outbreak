@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour {
     public SaveData save;
     public Text[] saveNames;
 
+    
+
     void Start() {
         DontDestroyOnLoad(transform.gameObject);
         for (int a = 0; a < 3; a++) {
