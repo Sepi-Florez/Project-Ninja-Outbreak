@@ -17,6 +17,7 @@ public class SceneBuild : MonoBehaviour {
         print(checkPointObj);
         for (int a = 0; a < checkPointObj.transform.childCount; a++) {
             checkPoints.Add(checkPointObj.transform.GetChild(a).transform.position);
+            checkPointObj.transform.GetChild(a).GetComponent<CheckPoint>().myCheckPoint = a;
         }
         playerIns = Instantiate(playerPref, checkPoints[checkPoint], Quaternion.identity);
     }
