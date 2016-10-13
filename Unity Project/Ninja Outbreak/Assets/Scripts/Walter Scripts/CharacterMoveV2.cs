@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-
 public class CharacterMoveV2 : MonoBehaviour
 {
     private Vector3 moveVector;
@@ -12,7 +11,6 @@ public class CharacterMoveV2 : MonoBehaviour
     {
         moveVector = Vector3.zero;
         moveVector.x = Input.GetAxis("Horizontal");
-        moveVector.z = Input.GetAxis("Vertical");
         if (controller.isGrounded)
         {
             verticalVelocity = -1;

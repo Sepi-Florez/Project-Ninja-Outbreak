@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
+
+[RequireComponent(typeof(CharacterController))]
 public class CharacterMove : MonoBehaviour
 {
+    [Header("Stuff")]
+    [Tooltip("Add the player controller in here.")]
     public CharacterController controller;
     public float walkSpeed = 5f, runSpeed = 20f, jumpSpeed = 12f, gravity = 30f, increase = 2f, cInFront = 9f;
     private float speed;
@@ -39,6 +43,10 @@ public class CharacterMove : MonoBehaviour
                 moveDirection.y = jumpSpeed;
             }
             Debug.DrawRay(hit.point, hit.normal, Color.blue, 0.35f);
+        }
+        if(hit.gameObject.tag == "climbable")
+        {
+
         }
     }
     public void CameraBehaviour()
