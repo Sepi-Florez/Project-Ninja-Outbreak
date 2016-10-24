@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-
 public class Shake : MonoBehaviour
 {
     [Range(0, 100)]

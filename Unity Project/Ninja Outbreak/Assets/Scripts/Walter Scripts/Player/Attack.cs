@@ -3,13 +3,14 @@
 public class AttacksTypes
 {
     public string name;
-    public Animation animation;
-    public GameObject bone; //which hitbox does damage, arm, leg sword
-    public int damage;
+    public Animation[] animations;
+    public Collider[] colliders; //which hitbox does damage, arm, leg sword
+    public float damage;
 }
 public class Attack : MonoBehaviour
 {
     public AttacksTypes[] attackTypes;
+    public 
 
     void Update()
     {
