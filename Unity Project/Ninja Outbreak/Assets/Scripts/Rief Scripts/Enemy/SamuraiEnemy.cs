@@ -6,14 +6,18 @@ public class SamuraiEnemy : EnemyVirtual {
 
     public bool standStill; //zet dit op true als je niet wilt dat ie patrolled.
     public bool justLooking; //Aanzetten als enemy alleen moet rondkijken.
+    public bool attackMode;
     public int looked;
+    public float distanceToPlayer;
 
 	void Start () {
-	
+
 	}
     void Update () {
+        distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
         Movement ();
         IsDetected ();
+        Attacking();
     }
     public override void Movement () {
         float moveTo = moveSpeed * Time.deltaTime;
@@ -32,8 +36,13 @@ public class SamuraiEnemy : EnemyVirtual {
     public void IsDetected () {
         if (detected == true) {
             StopAllCoroutines ();
-            transform.LookAt (player.transform.position);
-            transform.position = Vector3.MoveTowards (transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+            attackMode = true;
+        }
+    }
+    public void Attacking() {
+        if(attackMode == true) {
+            transform.LookAt(player.transform.position);
+            Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
         }
     }
     IEnumerator WaitToMove () {
