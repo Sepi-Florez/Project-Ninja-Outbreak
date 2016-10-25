@@ -30,7 +30,6 @@ public class Select : MonoBehaviour {
     }
     void SelectObject(GameObject obj)
     {
-        
         if (selectedObject != null)
         {
             if (obj == selectedObject)
