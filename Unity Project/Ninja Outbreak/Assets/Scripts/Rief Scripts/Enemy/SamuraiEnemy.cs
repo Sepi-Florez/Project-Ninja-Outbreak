@@ -7,8 +7,9 @@ public class SamuraiEnemy : EnemyVirtual {
     public bool standStill; //zet dit op true als je niet wilt dat ie patrolled.
     public bool justLooking; //Aanzetten als enemy alleen moet rondkijken.
     public bool attackMode;
-    public int looked;
+    private int looked;
     public float distanceToPlayer;
+    public float shootingDistance;
 
 	void Start () {
 
@@ -42,8 +43,16 @@ public class SamuraiEnemy : EnemyVirtual {
     public void Attacking() {
         if(attackMode == true) {
             transform.LookAt(player.transform.position);
-            Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+            if (distanceToPlayer >= shootingDistance) {
+                Vector3.MoveTowards (transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+            }
+            else {
+                Shooting ();
+            }
         }
+    }
+    public void Shooting () {
+        print ("time to shoot");
     }
     IEnumerator WaitToMove () {
         if (patrolPoint == patrolPointOne) {
