@@ -41,18 +41,16 @@ public class SamuraiEnemy : EnemyVirtual {
         }
     }
     public void Attacking() {
-        if(attackMode == true) {
-            transform.LookAt(player.transform.position);
-            if (distanceToPlayer >= shootingDistance) {
-                Vector3.MoveTowards (transform.position, player.transform.position, moveSpeed * Time.deltaTime);
-            }
-            else {
-                Shooting ();
-            }
+        if (shootingDistance >= distanceToPlayer) {
+            attackMode = false;
+            Shooting();
+        }
+        if (attackMode == true) {
+            transform.Translate(Vector3.forward * Time.deltaTime);
+            transform.LookAt(player.transform);
         }
     }
     public void Shooting () {
-        print ("time to shoot");
     }
     IEnumerator WaitToMove () {
         if (patrolPoint == patrolPointOne) {

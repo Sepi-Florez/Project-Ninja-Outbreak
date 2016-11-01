@@ -7,9 +7,9 @@ public class ConeCollider : MonoBehaviour {
     public GameObject enemy;
 	
 	void OnTriggerStay (Collider player) {
-           EnemyVirtual standardEnemy = enemy.transform.GetComponent<EnemyVirtual> ();
+           EnemyVirtual enemyDetection = enemy.transform.GetComponent<EnemyVirtual> ();
         if (player.tag == "Player") {
-            standardEnemy.detected = true;
+            enemyDetection.detected = true;
         }
 	}
 }
