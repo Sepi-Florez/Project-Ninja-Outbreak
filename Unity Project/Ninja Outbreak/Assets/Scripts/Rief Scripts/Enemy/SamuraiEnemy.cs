@@ -5,9 +5,9 @@ using System;
 public class SamuraiEnemy : EnemyVirtual {
 
     public bool standStill; //zet dit op true als je niet wilt dat ie patrolled.
-    public bool justLooking; //Aanzetten als enemy alleen moet rondkijken.
+    public int maxLooks;
     public bool attackMode;
-    private int looked;
+    public int looked;
     public float distanceToPlayer;
     public float shootingDistance;
     public GameObject bulletPrefab;
@@ -40,6 +40,8 @@ public class SamuraiEnemy : EnemyVirtual {
         if (detected == true) {
             StopAllCoroutines ();
             attackMode = true;
+        } else {
+            attackMode = false;
         }
     }
     public void Attacking() {
@@ -56,7 +58,7 @@ public class SamuraiEnemy : EnemyVirtual {
     }
     IEnumerator Shooting (float waitTime) {
         canSpawnBullet = false;
-            GameObject bullet = Instantiate(bulletPrefab, transform.position + transform.forward * 1, Quaternion.identity) as GameObject;
+            GameObject bullet = Instantiate(bulletPrefab, transform.position + transform.forward * 1, transform.rotation) as GameObject;
         yield return new WaitForSeconds(waitTime);
         canSpawnBullet = true;
     }
@@ -75,7 +77,7 @@ public class SamuraiEnemy : EnemyVirtual {
         yield return new WaitForSeconds (3);
         transform.Rotate (0, 180, 0);
         looked++;
-        if (looked == 3 && justLooking == true) {
+        if (looked == maxLooks) {
             StopCoroutine (LookAround ());
             StartCoroutine (WaitToMove ());
         }
