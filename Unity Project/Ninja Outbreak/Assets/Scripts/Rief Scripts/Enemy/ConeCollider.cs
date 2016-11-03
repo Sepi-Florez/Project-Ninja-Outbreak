@@ -17,8 +17,16 @@ public class ConeCollider : MonoBehaviour {
         SamuraiEnemy samuraiEnemy = enemy.transform.GetComponent<SamuraiEnemy>();
         if (player.tag == "Player") {
             enemyDetection.detected = false;
-            samuraiEnemy.standStill = true;
-            samuraiEnemy.looked = 0;
+            if (enemy.transform.tag == "SamuraiEnemy") {
+                samuraiEnemy.standStill = true;
+                samuraiEnemy.looked = 0;
+            }
+            if(enemy.transform.tag == "SamuraiEnemyRun") {
+
+            }
+            if(enemy.transform.tag == "AlarmEnemy") {
+
+            }
         }
     }
 }

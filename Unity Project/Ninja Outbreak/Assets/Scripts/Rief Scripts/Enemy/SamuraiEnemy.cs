@@ -12,6 +12,7 @@ public class SamuraiEnemy : EnemyVirtual {
     public float shootingDistance;
     public GameObject bulletPrefab;
     private bool canSpawnBullet;
+    private bool canLook;
 
 	void Start () {
         canSpawnBullet = true;
@@ -47,20 +48,25 @@ public class SamuraiEnemy : EnemyVirtual {
     public void Attacking() {
         if (shootingDistance >= distanceToPlayer) {
             attackMode = false;
+            canLook = false;
             if (canSpawnBullet == true) {
                 StartCoroutine(Shooting(1));
             }
         }
         if (attackMode == true) {
+            canLook = true;
             transform.Translate(Vector3.forward * Time.deltaTime);
-            transform.LookAt(player.transform);
+            if (canLook == true) {
+                transform.LookAt (player.transform);
+            }
         }
     }
     IEnumerator Shooting (float waitTime) {
         canSpawnBullet = false;
-            GameObject bullet = Instantiate(bulletPrefab, transform.position + transform.forward * 1, transform.rotation) as GameObject;
-        yield return new WaitForSeconds(waitTime);
+        GameObject bullet = Instantiate(bulletPrefab, transform.position + transform.forward * 1, transform.rotation) as GameObject;
+        yield return new WaitForSeconds (waitTime);
         canSpawnBullet = true;
+
     }
     IEnumerator WaitToMove () {
         if (patrolPoint == patrolPointOne) {
