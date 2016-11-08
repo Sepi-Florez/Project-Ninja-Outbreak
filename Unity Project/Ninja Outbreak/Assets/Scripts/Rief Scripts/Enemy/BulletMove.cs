@@ -12,4 +12,9 @@ public class BulletMove : MonoBehaviour {
         float moveSpeed = bulletSpeed * Time.deltaTime;
         transform.position += transform.forward * moveSpeed;
 	}
+    void OnCollisionEnter(Collision bullet) {
+        if(bullet.transform.tag == "Player") {
+            Destroy(this.gameObject);
+        }
+    }
 }

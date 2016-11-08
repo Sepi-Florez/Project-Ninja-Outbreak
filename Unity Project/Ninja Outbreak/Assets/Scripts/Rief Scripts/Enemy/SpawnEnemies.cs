@@ -10,12 +10,7 @@ public class SpawnEnemies : MonoBehaviour {
     public bool maxSpawn; //laten zoals het is.
     public bool minSpawn; //laten zoals het is.
 
-    void Start () {
 
-    }
-
-    void Update () {
-    }
     public void SpawnActive () {
         maxSpawn = true;
         if (spawnOn == true) {
