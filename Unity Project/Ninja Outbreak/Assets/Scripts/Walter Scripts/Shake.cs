@@ -3,7 +3,7 @@ public class Shake : MonoBehaviour
 {
     [Range(0, 100)]
     public float amplitude = 1;
-    [Range(0.00001f, 0.99999f)]
+    [Range(0.00001f, 0.9999f)]
     public float frequency = 0.98f;
 
     [Range(1, 4)]

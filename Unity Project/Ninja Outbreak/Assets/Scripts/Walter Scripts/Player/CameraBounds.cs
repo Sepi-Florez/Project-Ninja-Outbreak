@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class CameraScript : MonoBehaviour
+public class CameraBounds : MonoBehaviour
 {
     public CharacterController player;
     public Vector2 focusAreaSize;

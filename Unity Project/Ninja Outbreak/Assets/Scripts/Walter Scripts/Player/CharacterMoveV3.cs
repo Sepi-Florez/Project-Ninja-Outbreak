@@ -4,30 +4,43 @@ public class CharacterMoveV3 : MonoBehaviour
 {
     [Tooltip("Add the player's CharacterController in here.")]
     public CharacterController controller;
+    private Collider Floor;
     private Vector2 moveVector, lastVector;
-    private float verticalVelocity, speed;
-    private bool isClimbing, hasClung, woop;
+    [HideInInspector]
+    public float verticalVelocity, speed;
+    [HideInInspector]
+    public bool isClimbing, hasClung;
     public float minSpeed = 4,  maxSpeed = 10, secToMaxSpeed, maxSlideSpeed , jumpforce = 12.5f, gravity = 25;
-    public float rayCastLenghtX = .5f;
+    public float rayCastLenghtX = 1f,rayCastLenghtY =2.5f;
 
     void Update()
     {
-       RaycastHit hit;
-        Debug.DrawRay(transform.position, transform.right * rayCastLenghtX, Color.blue);
-        Debug.DrawRay(transform.position, -transform.right * rayCastLenghtX, Color.green);
+       RaycastHit hit, up;
+        int layerMask = 1 << 8;
+        if (Physics.Raycast(transform.position - new Vector3(0,controller.height/2,0), transform.up * rayCastLenghtY, out up, rayCastLenghtY, ~layerMask) && (up.transform.tag == "Floor"))// && !controller.isGrounded
+        {
+                Floor = up.collider;
+                Floor.isTrigger = true;
+        }
+        else if (Floor != null){Floor.isTrigger = false;}
         if ((Physics.Raycast(transform.position, transform.right, out hit, rayCastLenghtX)) || (Physics.Raycast(transform.position, -transform.right, out hit, rayCastLenghtX)))
         {
-
+            if (hit.transform.tag == "Climbable")
+            {
+                isClimbing = true;
+                verticalVelocity = Input.GetAxis("Vertical") * ((minSpeed + maxSpeed)/2);
+                moveVector.x = Input.GetAxis("Horizontal") * ((minSpeed + maxSpeed) / 2);
+            }
         }
+        else if(isClimbing == true){ isClimbing = false;}
 
         if (isClimbing == false)
         {
-            moveVector = Vector2.zero;
-            moveVector.x = Input.GetAxis("Horizontal");
-
             if (controller.isGrounded)
             {
                 hasClung = false;
+                moveVector = Vector2.zero;
+                moveVector.x = Input.GetAxis("Horizontal");
                 if (Input.GetButton("Jump")) { verticalVelocity = jumpforce; }
                 if (Input.GetAxis("Horizontal") != 0)
                 {
@@ -45,6 +58,7 @@ public class CharacterMoveV3 : MonoBehaviour
                     verticalVelocity -= gravity * 2 * Time.deltaTime;
                 }
             }
+        }
         moveVector.y = 0;
         moveVector.Normalize();
         moveVector *= speed;
@@ -52,18 +66,15 @@ public class CharacterMoveV3 : MonoBehaviour
 
         controller.Move(moveVector * Time.deltaTime);
         lastVector = moveVector;
-        }
     }
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
         if (!controller.isGrounded && hit.normal.y < 0.1f && hit.normal.y > -1f)
         {
-            //if (Input.GetButtonDown("Jump")){
             if (verticalVelocity < -maxSlideSpeed && Input.GetAxis("Horizontal") == -hit.normal.x)
             {
                 verticalVelocity = -maxSlideSpeed;
             }
-
             if (Input.GetButton("Jump"))
             {
                 if (Input.GetAxis("Horizontal") == hit.normal.x)
@@ -77,7 +88,14 @@ public class CharacterMoveV3 : MonoBehaviour
                     verticalVelocity = jumpforce;
                 }
             }
-            Debug.DrawRay(hit.point, hit.normal, Color.red, 0.35f);
+            Debug.DrawRay(hit.point, hit.normal, Color.white, 0.35f);
+        }
+        if(hit.transform.tag == "Floor")
+        {
+            if (Input.GetButton("Down"))
+            {
+                hit.collider.isTrigger = true;
+            }
         }
     }
 }
