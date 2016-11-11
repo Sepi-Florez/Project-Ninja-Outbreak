@@ -13,7 +13,7 @@ public class BulletMove : MonoBehaviour {
         transform.position += transform.forward * moveSpeed;
 	}
     void OnCollisionEnter(Collision bullet) {
-        if(bullet.transform.tag == "Player") {
+        if(bullet.transform.tag == "PlayerHit") {
             Destroy(this.gameObject);
         }
     }

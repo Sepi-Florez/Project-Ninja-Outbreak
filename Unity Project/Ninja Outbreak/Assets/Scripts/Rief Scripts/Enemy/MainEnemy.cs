@@ -61,8 +61,10 @@ public class MainEnemy : EnemyVirtual {
         if (shootingDistance >= distanceToPlayer) {
             attackMode = false;
             canLook = false;
-            if(canSpawnBullet == true) {
-                StartCoroutine(Shooting(1));
+            if (detected == true) {
+                if (canSpawnBullet == true) {
+                    StartCoroutine (Shooting (1));
+                }
             }
         }
         if(attackMode == true) {
