@@ -26,9 +26,15 @@ public class Throw : MonoBehaviour
 
     IEnumerator SimulateProjectile()
     {
-        Transform Projectile = ((GameObject)Instantiate(projectile, new Vector3(transform.position.x, transform.position.y+1f,transform.position.z), Quaternion.identity)).transform;
+        //Transform Projectile = ((GameObject)Instantiate(projectile, new Vector3(transform.position.x, transform.position.y+1f,transform.position.z), Quaternion.identity)).transform;
+        //Transform Projectile = ((GameObject)Instantiate(projectile, new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z), Quaternion.FromToRotation(Vector3.up, Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, cameraBounds.zOffset) - transform.position).normalized))).transform;
+        Vector3 relativePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, cameraBounds.zOffset)) - transform.position;
+        Transform Projectile = ((GameObject)Instantiate(projectile, new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z), Quaternion.LookRotation(relativePos))).transform;
+        //Instantiate(projectile, Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, cameraBounds.zOffset)), Quaternion.identity);
+        //Projectile.AddForce(transform.forward * 10);
+        Projectile.GetComponent<Rigidbody>().velocity = (-Projectile.up) * 10;
         //Projectile.GetComponent<Rigidbody>().AddForce(Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, cameraBounds.zOffset) - Projectile.position).normalized * (50f * Time.deltaTime));
-        Projectile.GetComponent<Rigidbody>().AddForce(transform.up * 2 - transform.position * 20f * Time.deltaTime);
+        //Projectile.GetComponent<Rigidbody>().AddForce(transform.up * 2 - transform.position * 20f * Time.deltaTime);
         /*
         // Short delay added before Projectile is thrown
         //yield return new WaitForSeconds(1.5f);
@@ -62,6 +68,6 @@ public class Throw : MonoBehaviour
 
             yield return null;
         }*/
-       yield return null;
+        yield return Projectile;
     }
 }
