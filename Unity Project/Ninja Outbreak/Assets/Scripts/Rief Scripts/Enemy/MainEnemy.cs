@@ -51,7 +51,7 @@ public class MainEnemy : EnemyVirtual {
         if(detected == true) {
             attackMode = true;
             StopCoroutine(LookAround());
-        } else {
+        }else {
             attackMode = false;
         }
     }

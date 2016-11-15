@@ -9,7 +9,7 @@ public class CharacterMoveV3 : MonoBehaviour
     [HideInInspector]
     public float verticalVelocity, speed;
     [HideInInspector]
-    public bool isClimbing, hasClung;
+    public bool isClimbing, isClinging, hasClung;
     public float minSpeed = 4,  maxSpeed = 10, secToMaxSpeed, maxSlideSpeed , jumpforce = 12.5f, gravity = 25;
     public float rayCastLenghtX = 1f,rayCastLenghtY =2.5f;
 
@@ -29,7 +29,7 @@ public class CharacterMoveV3 : MonoBehaviour
             {
                 isClimbing = true;
                 verticalVelocity = Input.GetAxis("Vertical") * ((minSpeed + maxSpeed)/2);
-                moveVector.x = Input.GetAxis("Horizontal") * ((minSpeed + maxSpeed) / 2);
+                moveVector.x = Input.GetAxis("Horizontal") * ((minSpeed + maxSpeed)/2);
             }
         }
         else if(isClimbing == true){ isClimbing = false;}
@@ -74,6 +74,7 @@ public class CharacterMoveV3 : MonoBehaviour
             if (verticalVelocity < -maxSlideSpeed && Input.GetAxis("Horizontal") == -hit.normal.x)
             {
                 verticalVelocity = -maxSlideSpeed;
+                isClinging = true;
             }
             if (Input.GetButton("Jump"))
             {
