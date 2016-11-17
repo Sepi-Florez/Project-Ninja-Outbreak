@@ -16,9 +16,16 @@ public class ShurrikenBehaviour : MonoBehaviour
     }
     void OnCollisionEnter(Collision collision)
     {
-        GetComponent<Rigidbody>().isKinematic = true;
-        _collider.isTrigger = true;
-        hasHit = true;
+        if (collision.transform.tag != "Player")
+        {
+            GetComponent<Rigidbody>().isKinematic = true;
+            _collider.isTrigger = true;
+            hasHit = true;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
     void OnTriggerEnter(Collider collider)
     {
