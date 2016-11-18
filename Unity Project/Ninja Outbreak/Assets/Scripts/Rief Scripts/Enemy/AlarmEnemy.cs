@@ -61,10 +61,10 @@ public class AlarmEnemy : EnemyVirtual {
             transform.position = Vector3.MoveTowards(transform.position, alarmObj.position, moveSp * 2);
         }
     }
-    IEnumerator TurnAlarmOn() {
-        yield return new WaitForSeconds(waitTime);
-        player.GetComponent<SpawnEnemies>().spawnOn = true;
-        player.GetComponent<SpawnEnemies>().SpawnActive();
-        StopCoroutine(TurnAlarmOn());
+    IEnumerator TurnAlarmOn () {
+        yield return new WaitForSeconds (waitTime);
+        player.GetComponent<SpawnEnemies> ().spawnOn = true;
+        player.GetComponent<SpawnEnemies> ().SpawnActive ();
+        StopCoroutine (TurnAlarmOn ());
     }
 }

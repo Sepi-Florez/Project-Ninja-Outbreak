@@ -4,7 +4,7 @@ Shooting
 Patrolling (meerdere punten)
 Not Patrolling
 Zoeken wanneer out of vision
-Alert other guards (navmesh?)
+Alert other guards (navmesh)
 
 Animations
 
