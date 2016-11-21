@@ -1,10 +1,15 @@
 ﻿using UnityEngine;
 public class ShurrikenBehaviour : MonoBehaviour
 {
+    Throw throwscript;
     bool hasHit;
     Collider _collider;
+    public float damage;
+    public Animator animator;
+
     void Awake()
     {
+        throwscript = GameObject.Find("Player").GetComponent<Throw>();
         _collider = GetComponent<Collider>();
     }
     void OnTriggerExit(Collider collider)
@@ -21,6 +26,10 @@ public class ShurrikenBehaviour : MonoBehaviour
             GetComponent<Rigidbody>().isKinematic = true;
             _collider.isTrigger = true;
             hasHit = true;
+            if (animator != null)
+            {
+                animator.SetBool("HasHit", hasHit);
+            }
         }
         else
         {
@@ -32,6 +41,10 @@ public class ShurrikenBehaviour : MonoBehaviour
         if (collider.tag == "Player" && hasHit == true)
         {
             Destroy(gameObject);
+            if(throwscript.ammo <= 3)
+            {
+                throwscript.ammo++;
+            }
         }
     }
 }

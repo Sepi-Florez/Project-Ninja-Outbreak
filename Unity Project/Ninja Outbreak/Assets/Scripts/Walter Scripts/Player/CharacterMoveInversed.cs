@@ -29,7 +29,7 @@ public class CharacterMoveInversed : MonoBehaviour
             {
                 isClimbing = true;
                 verticalVelocity = Input.GetAxis("Vertical") * ((minSpeed + maxSpeed)/2);
-                moveVector.x = Input.GetAxis("Horizontal") * ((minSpeed + maxSpeed)/2);
+                moveVector.x = -Input.GetAxis("Horizontal") * ((minSpeed + maxSpeed)/2);
             }
         }
         else if(isClimbing == true){ isClimbing = false;}
@@ -40,7 +40,7 @@ public class CharacterMoveInversed : MonoBehaviour
             {
                 hasClung = false;
                 moveVector = Vector2.zero;
-                moveVector.x = Input.GetAxis("Horizontal");
+                moveVector.x = -Input.GetAxis("Horizontal");
                 if (Input.GetButton("Jump")) { verticalVelocity = jumpforce; }
                 if (Input.GetAxis("Horizontal") != 0)
                 {
@@ -71,19 +71,19 @@ public class CharacterMoveInversed : MonoBehaviour
     {
         if (!controller.isGrounded && hit.normal.y < 0.1f && hit.normal.y > -1f)
         {
-            if (verticalVelocity < -maxSlideSpeed && Input.GetAxis("Horizontal") == -hit.normal.x)
+            if (verticalVelocity < -maxSlideSpeed && Input.GetAxis("Horizontal") == hit.normal.x)
             {
                 verticalVelocity = -maxSlideSpeed;
                 isClinging = true;
             }
             if (Input.GetButton("Jump"))
             {
-                if (Input.GetAxis("Horizontal") == hit.normal.x)
+                if (Input.GetAxis("Horizontal") == -hit.normal.x)
                 {
                     moveVector = hit.normal * speed * Time.deltaTime;
                     verticalVelocity = jumpforce;
                 }
-                else if (Input.GetAxis("Horizontal") == -hit.normal.x && hasClung == false)
+                else if (Input.GetAxis("Horizontal") == hit.normal.x && hasClung == false)
                 {
                     hasClung = true;
                     verticalVelocity = jumpforce;
