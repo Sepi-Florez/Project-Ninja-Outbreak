@@ -9,7 +9,7 @@ public class Menu : MonoBehaviour {
 	public void menu (int i) {
 		switch(i){
 			case 0:
-                SceneManager.LoadScene("IngameMenu", LoadSceneMode.Single);
+                SceneManager.LoadScene("MainScene", LoadSceneMode.Single);
                 //Application.LoadLevel("IngameMenu");
                 break;
 			case 1: 

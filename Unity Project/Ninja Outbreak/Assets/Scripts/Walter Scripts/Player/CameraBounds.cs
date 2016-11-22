@@ -7,10 +7,17 @@ public class CameraBounds : MonoBehaviour
     FocusArea focusArea;
 
     public Color boundingboxColor;
-    public float yOffset = 5, zOffset = 15, peekDistance = 4, smoothTimeX = .5f, smoothTimeY =.1f;
+    public float yOffset = 1.5f, zOffset = 10.5f, peekDistance = 4, smoothTimeX = .5f, smoothTimeY =.1f;
     float currentPeek, peekDirection, targetPeek, currentSmoothVelocityX, currentSmoothVelocityY;
     bool peekStopped;
-    
+
+    public void ChangeVals(float yOff,float zOff, float peekDist)
+    {
+        yOffset = yOff;
+        zOffset = zOff;
+        peekDistance = peekDist;
+    }
+
     void Start()
     {
         focusArea = new FocusArea(player.GetComponent<Collider>().bounds, focusAreaSize);

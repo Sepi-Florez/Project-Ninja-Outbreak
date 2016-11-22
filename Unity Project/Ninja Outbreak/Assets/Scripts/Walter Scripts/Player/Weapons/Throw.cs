@@ -11,7 +11,6 @@ public class Throw : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire2"))
         {
-            //if (Camera.main.ScreenToWorldPoint(Input.mousePosition).x >= transform.position.x)
             StartCoroutine(SimulateProjectile());
         }
     }
@@ -19,8 +18,12 @@ public class Throw : MonoBehaviour
     IEnumerator SimulateProjectile()
     {
         Vector3 spawnPos = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
-        Transform Projectile = ((GameObject)Instantiate(projectile, spawnPos, Quaternion.LookRotation(Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, cameraBounds.zOffset)) - spawnPos))).transform; //Input.mousePosition.z)) - spawnPos))).transform; //cameraBounds.zOffset)) - spawnPos))).transform;
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = transform.position.z;
+        Debug.DrawLine(spawnPos, mousePos);
+
+        Transform Projectile = ((GameObject)Instantiate(projectile, spawnPos, Quaternion.LookRotation(mousePos - spawnPos))).transform;
         Projectile.GetComponent<Rigidbody>().velocity = Projectile.forward * shurikenSpeed;
-        yield return Projectile;
+        yield return null;
     }
 }
