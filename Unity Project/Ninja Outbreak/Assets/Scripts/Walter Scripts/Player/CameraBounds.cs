@@ -22,6 +22,7 @@ public class CameraBounds : MonoBehaviour
     {
         focusArea = new FocusArea(player.GetComponent<Collider>().bounds, focusAreaSize);
     }
+
     void LateUpdate()
     {
         focusArea.Update(player.GetComponent<Collider>().bounds);
@@ -46,17 +47,17 @@ public class CameraBounds : MonoBehaviour
         focusPosition += Vector2.right * currentPeek;
         transform.position = (Vector3)focusPosition + Vector3.forward * -zOffset;
     }
+
     void OnDrawGizmos()
     {
         Gizmos.color = boundingboxColor;
         Gizmos.DrawCube(focusArea.centre, focusAreaSize);
     }
+
     struct FocusArea
     {
-        public Vector2 centre;
-        public Vector2 velocity; 
-        float left, right;
-        float top, bottom;
+        public Vector2 centre, velocity; 
+        float left, right, top, bottom;
 
         public FocusArea(Bounds targetBounds, Vector2 size)
         {
@@ -93,6 +94,7 @@ public class CameraBounds : MonoBehaviour
             }
             top += shiftY;
             bottom += shiftY;
+
             centre = new Vector2((left + right) / 2, (top + bottom) / 2);
             velocity = new Vector2(shiftX, shiftY);
         }

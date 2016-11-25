@@ -33,6 +33,7 @@ public class ShurrikenBehaviour : MonoBehaviour
         }
         else
         {
+            throwscript.shurikenList.Remove(transform);
             Destroy(gameObject);
         }
     }
@@ -41,7 +42,7 @@ public class ShurrikenBehaviour : MonoBehaviour
         if (collider.tag == "Player" && hasHit == true)
         {
             Destroy(gameObject);
-            if(throwscript.ammo <= 3)
+            if(throwscript.ammo <= throwscript.maxAmmo)
             {
                 throwscript.ammo++;
             }
