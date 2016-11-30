@@ -21,7 +21,7 @@ public class FieldOfView : MonoBehaviour {
     public MeshFilter viewMeshFilter;
     Mesh viewMesh;
 
-    void Start() {
+    public void Start() {
         viewMesh = new Mesh();
         viewMesh.name = "View Mesh";
         viewMeshFilter.mesh = viewMesh;
@@ -112,10 +112,10 @@ public class FieldOfView : MonoBehaviour {
         RaycastHit hit;
 
         if (Physics.Raycast(transform.position, dir, out hit, viewRadius, obstacleMask)) {
-            return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
+            return new ViewCastInfo(true, hit.point, hit.distance, globalAngle, hit.transform);
         }
         else {
-            return new ViewCastInfo(false, transform.position + dir * viewRadius, viewRadius, globalAngle);
+            return new ViewCastInfo(false, transform.position + dir * viewRadius, viewRadius, globalAngle,hit.transform);
         }
     }
 
@@ -131,12 +131,14 @@ public class FieldOfView : MonoBehaviour {
         public Vector3 point;
         public float dst;
         public float angle;
+        public Transform objHit;
 
-        public ViewCastInfo(bool _hit, Vector3 _point, float _dst, float _angle) {
+        public ViewCastInfo(bool _hit, Vector3 _point, float _dst, float _angle, Transform _objHit) {
             hit = _hit;
             point = _point;
             dst = _dst;
             angle = _angle;
+            objHit = _objHit;
         }
     }
 
