@@ -5,15 +5,17 @@ public class Enemy_Cam : FieldOfView {
     bool stun;
     float stunDur;
 
+    public Color[] states;
+
 
     void Start() {
         base.Start();
-        Detected();
     }
-    void Detected() {
-
-        viewMeshFilter.GetComponent<Renderer>().material.color = new Color(1, 0, 0, 0.5F);
-
+    public void Detected(bool detect) {
+        if(detect)
+            viewMeshFilter.GetComponent<Renderer>().material.color = states[1];
+        else
+            viewMeshFilter.GetComponent<Renderer>().material.color = states[0];
     }
-
+    
 }

@@ -33,12 +33,33 @@ public class FieldOfView : MonoBehaviour {
 
     void DrawFieldOfView() {
         int stepCount = Mathf.RoundToInt(viewAngle * meshResolution);
+        int stepHit = 0;
         float stepAngleSize = viewAngle / stepCount;
         List<Vector3> viewPoints = new List<Vector3>();
         ViewCastInfo oldViewCast = new ViewCastInfo();
         for (int i = 0; i <= stepCount; i++) {
+            print(stepCount);
             float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
             ViewCastInfo newViewCast = ViewCast(angle);
+            if (newViewCast.hit) {
+                if (newViewCast.objHit.tag == "Player") {
+                    GetComponent<Enemy_Cam>().Detected(true);
+                }
+                else {
+                    stepHit++;
+                }
+            }
+            else {
+                stepHit++;
+            }
+            if (i == stepCount  -1) {
+                if (stepCount == stepHit) {
+                    print(stepHit);
+                    GetComponent<Enemy_Cam>().Detected(false);
+                }
+
+            }
+
 
             if (i > 0) {
                 bool edgeDstThresholdExceeded = Mathf.Abs(oldViewCast.dst - newViewCast.dst) > edgeDstThreshold;
@@ -51,6 +72,7 @@ public class FieldOfView : MonoBehaviour {
                         viewPoints.Add(edge.pointB);
                     }
                 }
+                print("Further");
 
             }
 
