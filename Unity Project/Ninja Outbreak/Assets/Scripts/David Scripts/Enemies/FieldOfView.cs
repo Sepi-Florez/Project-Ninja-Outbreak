@@ -26,6 +26,7 @@ public class FieldOfView : MonoBehaviour {
         viewMesh.name = "View Mesh";
         viewMeshFilter.mesh = viewMesh;
     }
+
     void LateUpdate() {
         DrawFieldOfView();
     }

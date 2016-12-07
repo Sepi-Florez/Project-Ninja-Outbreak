@@ -7,12 +7,23 @@ public class Alarm : MonoBehaviour {
     public GameObject[] guards;
 
     public int spawnDistance;
-    public void SpawnGuard() {
+    public void SpawnGuard(int count) {
        Vector3 spawnLoc = DecideSpawnLocations();
-        if (spawnLoc != Vector3.zero) {
-            GameObject guard = (GameObject)Instantiate(guards[0], spawnLoc, Quaternion.identity);
-            guard.transform.LookAt(player);
+        int spawnCount = count;
+        if (spawnCount != 0){
+            if (spawnLoc != Vector3.zero) {
+                GameObject guard = (GameObject)Instantiate(guards[0], spawnLoc, Quaternion.identity);
+                guard.transform.LookAt(player);
+                spawnDistance++;
+                spawnCount--;
+                if (spawnCount != 0)
+                    SpawnGuard(spawnCount);
+            }
+            else {
+                SpawnGuard(spawnCount);
+            }
         }
+
     }
     Vector3 DecideSpawnLocations() {
         Vector3 spawnLoc = new Vector3();
@@ -23,10 +34,15 @@ public class Alarm : MonoBehaviour {
             }
             else {
                 spawnLoc = new Vector3(-spawnDistance, player.position.y, player.position.z);
+                
+   
+
+       
             }
         }
         else {
             spawnLoc = new Vector3(+spawnDistance, player.position.y, player.position.z);
+            spawnDistance++;
         }
 
         return spawnLoc;
