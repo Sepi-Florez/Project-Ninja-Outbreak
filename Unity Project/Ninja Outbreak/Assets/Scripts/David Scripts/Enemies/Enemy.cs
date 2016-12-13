@@ -21,13 +21,15 @@ public class Enemy : MonoBehaviour {
 
     void Update () {
 
-
-
 		if(stunned) {
 
         }
         else {
-            Movement();
+            if (Input.GetButton("Jump")) {
+
+
+                Movement();
+            }
         }
 	}
     public void Movement() {
@@ -37,13 +39,22 @@ public class Enemy : MonoBehaviour {
                 break;
             case (MovState)1:
                 // play idle
+                anim.SetTrigger("Idle");
+
                 break;
             case (MovState)2:
-                anim.SetBool("Left",!left);
-                left = !left;
-                states = (MovState)1;
+                if (left) {
+                    anim.SetTrigger("Turn1");
+                    anim.ResetTrigger("Idle");
+                }
+                else {
+                    anim.SetTrigger("Turn0");
+                    anim.ResetTrigger("Idle");
+                }
+                    states = (MovState)1;
                 break;
             case (MovState)3:
+                anim.SetTrigger("Walking");
                 transform.Translate(movements[1] * speed * Time.deltaTime);
                 break;
         }
