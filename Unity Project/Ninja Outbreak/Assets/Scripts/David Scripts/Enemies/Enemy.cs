@@ -35,7 +35,10 @@ public class Enemy : MonoBehaviour {
     public void Movement() {
         switch (states) {
             case (MovState)0:
+                anim.SetTrigger("Running");
+                anim.ResetTrigger("Idle");
                 transform.Translate(movements[0] * speed * Time.deltaTime);
+
                 break;
             case (MovState)1:
                 // play idle
@@ -44,17 +47,22 @@ public class Enemy : MonoBehaviour {
                 break;
             case (MovState)2:
                 if (left) {
-                    anim.SetTrigger("Turn1");
-                    anim.ResetTrigger("Idle");
+                    anim.SetBool("left", true);
+                    anim.SetTrigger("Turn");
+                    left = false;
+                    
                 }
                 else {
-                    anim.SetTrigger("Turn0");
-                    anim.ResetTrigger("Idle");
+                    anim.SetBool("left", false);
+                    anim.SetTrigger("Turn");
+                    left = true;
+                    
                 }
                     states = (MovState)1;
                 break;
             case (MovState)3:
                 anim.SetTrigger("Walking");
+                anim.ResetTrigger("Idle");
                 transform.Translate(movements[1] * speed * Time.deltaTime);
                 break;
         }
