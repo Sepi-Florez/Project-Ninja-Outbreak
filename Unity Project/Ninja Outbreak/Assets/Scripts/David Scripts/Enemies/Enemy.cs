@@ -5,6 +5,10 @@ using UnityEngine;
 public class Enemy : MonoBehaviour {
 
     Animator anim;
+    public Animator anim2;
+
+    public Transform enemy;
+
 
     int health;
     public enum MovState { Run, Idle, Turn, Walk}
@@ -33,11 +37,12 @@ public class Enemy : MonoBehaviour {
         }
 	}
     public void Movement() {
+
         switch (states) {
             case (MovState)0:
                 anim.SetTrigger("Running");
                 anim.ResetTrigger("Idle");
-                transform.Translate(movements[0] * speed * Time.deltaTime);
+                enemy.Translate(movements[0] * speed * Time.deltaTime);
 
                 break;
             case (MovState)1:
@@ -46,24 +51,13 @@ public class Enemy : MonoBehaviour {
 
                 break;
             case (MovState)2:
-                if (left) {
-                    anim.SetBool("left", true);
-                    anim.SetTrigger("Turn");
-                    left = false;
-                    
-                }
-                else {
-                    anim.SetBool("left", false);
-                    anim.SetTrigger("Turn");
-                    left = true;
-                    
-                }
-                    states = (MovState)1;
+                    anim2.SetTrigger("Turn");
+                    states = (MovState)2;
                 break;
             case (MovState)3:
                 anim.SetTrigger("Walking");
                 anim.ResetTrigger("Idle");
-                transform.Translate(movements[1] * speed * Time.deltaTime);
+                enemy.Translate(movements[1] * speed * Time.deltaTime);
                 break;
         }
     }
