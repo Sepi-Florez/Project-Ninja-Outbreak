@@ -9,6 +9,8 @@ public class Enemy : MonoBehaviour {
 
     public Transform enemy;
 
+    bool mov = false;
+    bool run = false;
 
     int health;
     public enum MovState { Run, Idle, Turn, Walk}
@@ -21,29 +23,32 @@ public class Enemy : MonoBehaviour {
 
     void Start () {
         anim = transform.GetComponent<Animator>();
+        StartCoroutine(Patrol(3, 2));
     }
 
     void Update () {
-
-		if(stunned) {
-
-        }
-        else {
-            if (Input.GetButton("Jump")) {
-
-
-                Movement();
+        
+        if (mov) {
+            if (run) {
+                Moving(true);
             }
+            else {
+                Moving(false);
+            }
+           
         }
 	}
-    public void Movement() {
-
-        switch (states) {
+    public void Movement(MovState newState) {
+        mov = false;
+        run = false;
+        switch (newState) {
             case (MovState)0:
                 anim.SetTrigger("Running");
                 anim.ResetTrigger("Idle");
-                enemy.Translate(movements[0] * speed * Time.deltaTime);
-
+                mov = true;
+                run = true;
+                
+                
                 break;
             case (MovState)1:
                 // play idle
@@ -55,13 +60,22 @@ public class Enemy : MonoBehaviour {
                     states = (MovState)2;
                 break;
             case (MovState)3:
+                mov = true;
                 anim.SetTrigger("Walking");
                 anim.ResetTrigger("Idle");
-                enemy.Translate(movements[1] * speed * Time.deltaTime);
+                
                 break;
         }
     }
     // Is called when hit
+    void Moving(bool run) {
+        if (run) {
+            enemy.Translate(movements[1] * speed * Time.deltaTime);
+        }
+        else {
+            enemy.Translate(movements[0] * speed * Time.deltaTime);
+        }
+    }
     public void Health() {
 
         health--;
@@ -71,5 +85,14 @@ public class Enemy : MonoBehaviour {
     }
     public void Death() {
         // play death animation
+    }
+    IEnumerator Patrol (float PatrolTime, float TurnTime) {
+        Movement((MovState)0);
+        yield return new WaitForSeconds(PatrolTime);
+        Movement((MovState)1);
+        yield return new WaitForSeconds(TurnTime);
+        Movement((MovState)2);
+        yield return new WaitForSeconds(1);
+        StartCoroutine(Patrol(PatrolTime, TurnTime));
     }
 }
