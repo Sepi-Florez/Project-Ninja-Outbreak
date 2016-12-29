@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour {
 
     public Transform enemy;
 
+    public bool patrol = false;
     bool mov = false;
     bool run = false;
 
@@ -23,7 +24,8 @@ public class Enemy : MonoBehaviour {
 
     void Start () {
         anim = transform.GetComponent<Animator>();
-        StartCoroutine(Patrol(3, 2));
+        if(patrol)
+            StartCoroutine(Patrol(3, 2));
     }
 
     void Update () {
@@ -86,8 +88,12 @@ public class Enemy : MonoBehaviour {
     public void Death() {
         // play death animation
     }
+
+    public void Attack(Transform player) {
+
+    }
     IEnumerator Patrol (float PatrolTime, float TurnTime) {
-        Movement((MovState)0);
+        Movement((MovState)3);
         yield return new WaitForSeconds(PatrolTime);
         Movement((MovState)1);
         yield return new WaitForSeconds(TurnTime);

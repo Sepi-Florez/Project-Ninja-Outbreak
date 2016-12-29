@@ -44,7 +44,7 @@ public class FieldOfView : MonoBehaviour {
             ViewCastInfo newViewCast = ViewCast(angle);
             if (newViewCast.hit) {
                 if (newViewCast.objHit.tag == "Player") {
-                    GetComponent<Enemy_Cam>().Detected(true);
+                    GetComponent<Enemy_Cam>().Detected(true,newViewCast.objHit);
                 }
                 else {
                     stepHit++;
@@ -56,7 +56,7 @@ public class FieldOfView : MonoBehaviour {
             if (i == stepCount  -1) {
                 if (stepCount == stepHit) {
                     print(stepHit);
-                    GetComponent<Enemy_Cam>().Detected(false);
+                    GetComponent<Enemy_Cam>().Detected(false, newViewCast.objHit);
                 }
 
             }
