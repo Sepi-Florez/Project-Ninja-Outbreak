@@ -14,13 +14,15 @@ public class Enemy : MonoBehaviour {
     bool run = false;
 
     int health;
-    public enum MovState { Run, Idle, Turn, Walk}
+    public enum MovState { Run, Idle, Turn, Walk, Death}
     public MovState states = (MovState)1;
     bool stunned = false;
-    bool left = false;
 
     public float speed;
     public Vector3[] movements = new Vector3[2];
+
+    RaycastHit shootHit;
+    public int shootingRange;
 
     void Start () {
         anim = transform.GetComponent<Animator>();
@@ -67,6 +69,9 @@ public class Enemy : MonoBehaviour {
                 anim.ResetTrigger("Idle");
                 
                 break;
+            case (MovState)4:
+                anim.SetTrigger("Death");
+                break;
         }
     }
     // Is called when hit
@@ -81,15 +86,25 @@ public class Enemy : MonoBehaviour {
     public void Health() {
 
         health--;
-        if (health == 0 ){
+        if (health == 0 || stunned == true ){
             Death();
         }
     }
     public void Death() {
-        // play death animation
+        StopAllCoroutines();
+        Movement((MovState)0);
     }
 
-    public void Attack(Transform player) {
+    public void Engage(Transform player) {
+        StopAllCoroutines();
+        
+
+        if (Physics.Raycast(transform.position, player.position, shootingRange)) {
+            if(shootHit.transform.tag == "Player") {
+
+            }
+        }
+
 
     }
     IEnumerator Patrol (float PatrolTime, float TurnTime) {
