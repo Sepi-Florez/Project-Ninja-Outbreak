@@ -23,6 +23,11 @@ public class Enemy : MonoBehaviour {
 
     RaycastHit shootHit;
     public int shootingRange;
+    public GameObject bulletpref;
+    public Vector3 bulletSpeed;
+    public Transform gunPos;
+    public float reloadTime;
+    public bool shoot = true;
 
     void Start () {
         anim = transform.GetComponent<Animator>();
@@ -96,16 +101,35 @@ public class Enemy : MonoBehaviour {
     }
 
     public void Engage(Transform player) {
+        print("Engage!");
         StopAllCoroutines();
-        
-
-        if (Physics.Raycast(transform.position, player.position, shootingRange)) {
+        Movement((MovState)1);
+        print(player.position);
+        Debug.DrawRay(gunPos.position, player.position, Color.blue);
+        if (Physics.Raycast(gunPos.position, player.position,out shootHit, shootingRange)) {
+            print("ScanHit");
             if(shootHit.transform.tag == "Player") {
+                print("Shoot");
+                if(shoot)
+                    StartCoroutine(Shoot());
+                    shoot = false;
+            }
+            else {
 
             }
         }
+        else {
+
+        }
+        
 
 
+    }
+    IEnumerator Shoot () {
+        GameObject bullet = (GameObject)Instantiate(bulletpref, gunPos.position, Quaternion.identity);
+        bullet.GetComponent<Rigidbody>().velocity = bulletSpeed;
+        yield return new WaitForSeconds(reloadTime);
+        shoot = true;
     }
     IEnumerator Patrol (float PatrolTime, float TurnTime) {
         Movement((MovState)3);

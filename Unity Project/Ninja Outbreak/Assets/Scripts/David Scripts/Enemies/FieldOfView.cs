@@ -55,7 +55,6 @@ public class FieldOfView : MonoBehaviour {
             }
             if (i == stepCount  -1) {
                 if (stepCount == stepHit) {
-                    print(stepHit);
                     GetComponent<Enemy_Cam>().Detected(false, newViewCast.objHit);
                 }
 
@@ -73,7 +72,6 @@ public class FieldOfView : MonoBehaviour {
                         viewPoints.Add(edge.pointB);
                     }
                 }
-                print("Further");
 
             }
 

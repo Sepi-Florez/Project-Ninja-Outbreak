@@ -13,8 +13,9 @@ public class Enemy_Cam : FieldOfView {
     }
     public void Detected(bool detect, Transform player) {
         if (detect) {
+            print("Detected player!");
             viewMeshFilter.GetComponent<Renderer>().material.color = states[1];
-            transform.parent.GetComponent<Enemy>().Engage(player);
+            transform.parent.GetChild(0).GetComponent<Enemy>().Engage(player);
         }
         else
             viewMeshFilter.GetComponent<Renderer>().material.color = states[0];
