@@ -24,15 +24,19 @@ public class Enemy : MonoBehaviour {
     RaycastHit shootHit;
     public int shootingRange;
     public GameObject bulletpref;
-    public Vector3 bulletSpeed;
+    public Vector3 targetPos;
+    public float bulletSpeed;
     public Transform gunPos;
     public float reloadTime;
     public bool shoot = true;
 
+    IEnumerator patrolStored;
+
     void Start () {
         anim = transform.GetComponent<Animator>();
-        if(patrol)
-            StartCoroutine(Patrol(3, 2));
+        if (patrol)
+            patrolStored = Patrol(3, 2);
+            StartCoroutine(patrolStored);
     }
 
     void Update () {
@@ -102,8 +106,9 @@ public class Enemy : MonoBehaviour {
 
     public void Engage(Transform player) {
         print("Engage!");
-        StopAllCoroutines();
+        StopCoroutine(patrolStored);
         Movement((MovState)1);
+        targetPos = player.position;
         print(player.position);
         Debug.DrawRay(gunPos.position, player.position, Color.blue);
         if (Physics.Raycast(gunPos.position, player.position,out shootHit, shootingRange)) {
@@ -112,7 +117,7 @@ public class Enemy : MonoBehaviour {
                 print("Shoot");
                 if(shoot)
                     StartCoroutine(Shoot());
-                    shoot = false;
+                    
             }
             else {
 
@@ -126,9 +131,12 @@ public class Enemy : MonoBehaviour {
 
     }
     IEnumerator Shoot () {
-        GameObject bullet = (GameObject)Instantiate(bulletpref, gunPos.position, Quaternion.identity);
-        bullet.GetComponent<Rigidbody>().velocity = bulletSpeed;
+        shoot = false;
+        Transform bullet = ((GameObject)Instantiate(bulletpref, gunPos.position, Quaternion.LookRotation(targetPos - gunPos.position))).transform;
+        bullet.GetComponent<Rigidbody>().velocity = bullet.forward *bulletSpeed;
+        print("Reloading");
         yield return new WaitForSeconds(reloadTime);
+        print("Reloaded");
         shoot = true;
     }
     IEnumerator Patrol (float PatrolTime, float TurnTime) {
