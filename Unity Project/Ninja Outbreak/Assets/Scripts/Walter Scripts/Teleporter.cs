@@ -2,12 +2,12 @@
 
 public class Teleporter : MonoBehaviour
 {
-    public Transform portal;
+    public Transform exit;
     void OnTriggerEnter(Collider collider)
     {
         if (collider.tag == "Player")
         {
-            collider.transform.position = portal.transform.position;
+            collider.transform.position = exit.transform.position;
         }
     }
 }

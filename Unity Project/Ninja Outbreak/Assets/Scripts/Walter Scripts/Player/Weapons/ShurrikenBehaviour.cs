@@ -12,14 +12,8 @@ public class ShurrikenBehaviour : MonoBehaviour
         throwscript = GameObject.Find("Player").GetComponent<Throw>();
         _collider = GetComponent<Collider>();
     }
-    void OnTriggerExit(Collider collider)
-    {
-        if (collider.tag == "Player")
-        {
-            _collider.isTrigger = false;
-        }
-    }
-    void OnCollisionEnter(Collision collision)
+
+    /*void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.tag != "Player")
         {
@@ -36,7 +30,8 @@ public class ShurrikenBehaviour : MonoBehaviour
             throwscript.shurikenList.Remove(transform);
             Destroy(gameObject);
         }
-    }
+    }*/
+
     void OnTriggerEnter(Collider collider)
     {
         if (collider.tag == "Player" && hasHit == true)
@@ -47,5 +42,23 @@ public class ShurrikenBehaviour : MonoBehaviour
                 throwscript.ammo++;
             }
         }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.tag != "Player")
+        {
+            _collider.isTrigger = true;
+            if (animator != null)
+            {
+                animator.SetBool("HasHit", hasHit);
+            }
+            GetComponent<Rigidbody>().isKinematic = true;
+        }
+    }
+
+    void Update()
+    {
+        Physics.IgnoreLayerCollision(8, 9, true);
     }
 }

@@ -18,7 +18,7 @@ public class CutSystem : MonoBehaviour
 
     void Start()
     {
-        RandomShape();
+            //RandomShape();
     }
     void Update()
     {
@@ -49,7 +49,7 @@ public class CutSystem : MonoBehaviour
             timer = 0;
         }
     }
-    void RandomShape() //word ook gecalled als het script (of functie) eerste keer word gecalled
+    /*void RandomShape() //word ook gecalled als het script (of functie) eerste keer word gecalled
     {
         if (waypoints.Length > 0)
         {
@@ -57,7 +57,8 @@ public class CutSystem : MonoBehaviour
             randomWaypoint = Random.Range(0, waypoints.Length - 1);
             lineRenderer.SetPositions(waypoints[randomWaypoint].positions);
         }
-    }
+    }*/
+
     void Succeeded()
     {
         //Slowmo zo je andere kan selecten Or Quit als je niet select
@@ -65,7 +66,7 @@ public class CutSystem : MonoBehaviour
         //RandomShape();
         ///////////////
         //hasn't selected
-        RandomShape();
+            //RandomShape();
         inSlashMode = false;
         timer = 0;
         print("Succeeded");
@@ -76,7 +77,7 @@ public class CutSystem : MonoBehaviour
     void Failed()
     {
         //Respawn();
-        RandomShape();
+            //RandomShape();
         inSlashMode = false;
         timer = 0;
         print("Failed");

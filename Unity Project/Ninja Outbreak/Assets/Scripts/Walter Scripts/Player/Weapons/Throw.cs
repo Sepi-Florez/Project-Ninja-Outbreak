@@ -6,12 +6,15 @@ public class Throw : MonoBehaviour
 {
     //public CameraBounds cameraBounds;
     public GameObject projectile;
-    public int shurikenSpeed = 20, reloadTime = 2, maxAmmo = 3, maxShurikensInLevel = 9;
-    [Space(10)]
-    //[HideInInspector]
+    public int shurikenSpeed = 20, reloadTime = 2, maxAmmo = 3, maxShurikens = 9;
+    [HideInInspector]
     public int ammo = 3;
     [HideInInspector]
     public List<Transform> shurikenList = new List<Transform>();
+    void Awake()
+    {
+        ammo = maxAmmo;
+    }
 
     void Update()
     {
@@ -32,12 +35,12 @@ public class Throw : MonoBehaviour
             //Ray mouseRay = Camera.main.ScreenPointToRay(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
             //Vector3 mousePos = mouseRay.origin;
 
-            Debug.DrawLine(mousePos, transform.position, Color.black);
+            Debug.DrawLine(mousePos, spawnPos, Color.black);
             Transform Projectile = ((GameObject)Instantiate(projectile, spawnPos, Quaternion.LookRotation(mousePos - spawnPos))).transform;
             Projectile.GetComponent<Rigidbody>().velocity = Projectile.forward * shurikenSpeed;
             shurikenList.Add(Projectile);
 
-            if(shurikenList.Count-1 >= maxShurikensInLevel)
+            if(shurikenList.Count-1 >= maxShurikens)
             {
                 shurikenList.RemoveAt(0);
             }
