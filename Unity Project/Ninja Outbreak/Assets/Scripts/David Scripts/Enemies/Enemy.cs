@@ -139,7 +139,7 @@ public class Enemy : MonoBehaviour {
         print("Reloaded");
         shoot = true;
     }
-    IEnumerator Patrol (float PatrolTime, float TurnTime) {
+    IEnumerator Patrol (float PatrolTime, float TurnTime) { 
         Movement((MovState)3);
         yield return new WaitForSeconds(PatrolTime);
         Movement((MovState)1);

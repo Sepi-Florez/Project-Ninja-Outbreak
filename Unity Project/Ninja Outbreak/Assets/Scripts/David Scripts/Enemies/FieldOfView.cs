@@ -45,6 +45,7 @@ public class FieldOfView : MonoBehaviour {
             if (newViewCast.hit) {
                 if (newViewCast.objHit.tag == "Player") {
                     GetComponent<Enemy_Cam>().Detected(true,newViewCast.objHit);
+
                 }
                 else {
                     stepHit++;
@@ -56,6 +57,7 @@ public class FieldOfView : MonoBehaviour {
             if (i == stepCount  -1) {
                 if (stepCount == stepHit) {
                     GetComponent<Enemy_Cam>().Detected(false, newViewCast.objHit);
+
                 }
 
             }
