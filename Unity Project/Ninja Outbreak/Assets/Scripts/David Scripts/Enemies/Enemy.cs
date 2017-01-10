@@ -119,16 +119,7 @@ public class Enemy : MonoBehaviour {
                     StartCoroutine(Shoot());
                     
             }
-            else {
-
-            }
         }
-        else {
-
-        }
-        
-
-
     }
     IEnumerator Shoot () {
         shoot = false;
