@@ -6,6 +6,7 @@ public class CollisionDetector : MonoBehaviour
     Player player;
     [Tooltip("layermask waar de rays NIET mee moeten collider (Player)")]
     public LayerMask layermask;
+    public CharacterController charController;
     public float playerHeight, rayLenght;
 
     [Range(2,12)]
