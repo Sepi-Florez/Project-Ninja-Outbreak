@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof CollisionDetector]
+[RequireComponent(typeof (CollisionDetector))]
 public class Player : MonoBehaviour
 {
 	public float jumpHeight = 4, jumpSpeed = .4f;
@@ -44,7 +44,7 @@ public class Player : MonoBehaviour
 
 		float targetVelocityX = input.x * speed;
 		velocity.x = Mathf.SmoothDamp (velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.isGrounded) ? accelerateTimeGround : accelerateTimeAir);
-		velocity.y += gravity * Time.deltaTime;
+        if(climbing == false) { velocity.y += gravity * Time.deltaTime; }
 
         controller.Move(velocity * Time.deltaTime);
 	}
@@ -56,6 +56,7 @@ public class Player : MonoBehaviour
             climbing = true; //REMOVE IF YOU CAN
             velocity.y = Input.GetAxis("Vertical") * climbSpeed;
             //velocity.x = Input.GetAxis("Horizontal") * climbSpeed;
+            climbing = false;
         }
         else if (climbing == true) { climbing = false; } //DIT OOK
 

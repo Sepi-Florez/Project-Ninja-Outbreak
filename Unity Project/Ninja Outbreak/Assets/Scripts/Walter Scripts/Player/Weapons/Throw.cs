@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 public class Throw : MonoBehaviour
 {
-    //public CameraBounds cameraBounds;
     public Image darkMask;
     public GameObject projectile;
     public float maxAmmo,shurikenSpeed = 20,throwWait = .25f, reloadTime = 2, maxShurikens = 9;
@@ -18,20 +17,16 @@ public class Throw : MonoBehaviour
         ammo = maxAmmo;
         StartCoroutine(SimulateProjectile());
     }
-
-    /*void Update()
+    void Update()
     {
-        if (Input.GetButtonDown("Fire2"))
-        {
-            StartCoroutine(SimulateProjectile());
-        }
-    }*/
+        StartCoroutine(SimulateProjectile());
+    }
 
     IEnumerator SimulateProjectile()
     {
         if (Input.GetButton("Fire2"))
         {
-            if (ammo - 1 >= 0)//if (ammo >= 0)  //if(shurikenList.Count)
+            if (ammo - 1 >= 0)
             {
                 ammo--;
                 float startTime = Time.time;
@@ -41,12 +36,8 @@ public class Throw : MonoBehaviour
                     yield return null;
                 }
 
-                //print("ammo = " + ammo + " maxAmmo = " + maxAmmo + " ammo/maxAmmo = " + (ammo / maxAmmo));
                 Vector3 spawnPos = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
                 Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
-
-                //Ray mouseRay = Camera.main.ScreenPointToRay(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
-                //Vector3 mousePos = mouseRay.origin;
 
                 Debug.DrawLine(mousePos, spawnPos, Color.black);
                 Transform Projectile = ((GameObject)Instantiate(projectile, spawnPos, Quaternion.LookRotation(mousePos - spawnPos))).transform;
