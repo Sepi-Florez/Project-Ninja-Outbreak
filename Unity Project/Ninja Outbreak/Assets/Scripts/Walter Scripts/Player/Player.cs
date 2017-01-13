@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof CollisionDetector]
 public class Player : MonoBehaviour
 {
 	public float jumpHeight = 4, jumpSpeed = .4f;
-    public float speed = 6, wallSlideSpeed =1;
+    public float speed = 6, wallSlideSpeed =1, climbSpeed;
     public float accelerateTimeAir = .2f, accelerateTimeGround = .1f;
     public Vector2 wallJumpClimb, wallJumpOff;
 
@@ -14,7 +15,7 @@ public class Player : MonoBehaviour
     float gravity, jumpVelocity;
 	Vector3 velocity;
 	float velocityXSmoothing;
-
+    bool climbing = false;
      CharacterController controller;
 
 	void Start()
@@ -38,7 +39,7 @@ public class Player : MonoBehaviour
 		if (Input.GetButtonDown("Jump") && controller.isGrounded)
         {
             //print("Jump");
-			velocity.y = jumpVelocity;
+            velocity.y = jumpVelocity;
 		}
 
 		float targetVelocityX = input.x * speed;
@@ -50,6 +51,14 @@ public class Player : MonoBehaviour
 
     public void Hit(RaycastHit hit)
     {
+        if (hit.transform.tag == "Climbable")
+        {
+            climbing = true; //REMOVE IF YOU CAN
+            velocity.y = Input.GetAxis("Vertical") * climbSpeed;
+            //velocity.x = Input.GetAxis("Horizontal") * climbSpeed;
+        }
+        else if (climbing == true) { climbing = false; } //DIT OOK
+
         if (!controller.isGrounded && hit.normal.y < 0.1f && hit.normal.y > -1f)
         {
             if (velocity.y < -wallSlideSpeed && Input.GetAxis("Vertical") > -1){velocity.y = -wallSlideSpeed;}
