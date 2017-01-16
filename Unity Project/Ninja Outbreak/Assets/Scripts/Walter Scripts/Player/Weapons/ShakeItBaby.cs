@@ -6,10 +6,10 @@ public class ShakeItBaby : MonoBehaviour
 {
 	void Update ()
     {
-        if (Input.GetButtonDown("Fire1"))
+        /*if (Input.GetButtonDown("Fire1"))
         {
             StartCoroutine(ShakeIt());
-        }
+        }*/
 	}
     IEnumerator ShakeIt()
     {
