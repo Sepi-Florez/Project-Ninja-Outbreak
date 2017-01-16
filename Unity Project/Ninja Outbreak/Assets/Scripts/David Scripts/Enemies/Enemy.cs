@@ -108,6 +108,7 @@ public class Enemy : MonoBehaviour {
         print("Engage!");
         StopCoroutine(patrolStored);
         Movement((MovState)1);
+
         targetPos = player.position;
         print(player.position);
         Debug.DrawRay(gunPos.position, player.position, Color.blue);
@@ -122,6 +123,7 @@ public class Enemy : MonoBehaviour {
         }
     }
     IEnumerator Shoot () {
+        anim.SetTrigger("shoot");
         shoot = false;
         Transform bullet = ((GameObject)Instantiate(bulletpref, gunPos.position, Quaternion.LookRotation(targetPos - gunPos.position))).transform;
         bullet.GetComponent<Rigidbody>().velocity = bullet.forward *bulletSpeed;
