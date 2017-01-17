@@ -4,8 +4,13 @@ using System.Collections;
 public class CheckPoint : MonoBehaviour {
     public int myCheckPoint;
     public GameObject gameManager;
-    void Start () {
+    public bool boss;
+
+    void Start() {
         gameManager = GameObject.Find("GameManager");
+        gameManager.GetComponent<GameManager>().checkpoints.Add(transform);
+        if (boss)
+            gameManager.GetComponent<GameManager>().OnSceneLoad();
     }
     public void OnTriggerEnter(Collider player) {
         print("check");

@@ -13,6 +13,8 @@ public class PlayerUI : MonoBehaviour {
     GameObject health2;
 
 	void Start () {
+        tutorialCanvasObject = GameObject.FindGameObjectWithTag("TutorialObject");
+        HealthCanvasObject = GameObject.FindGameObjectWithTag("HealthObject");
         tutorialBalloon = tutorialCanvasObject.transform.FindChild("TutBalloon").gameObject;
         tutorialText = tutorialCanvasObject.transform.FindChild("TutText").gameObject;
         health1 = HealthCanvasObject.transform.GetChild(0).gameObject;
