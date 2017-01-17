@@ -10,8 +10,8 @@ using System.IO;
 public class GameManager : MonoBehaviour {
     public int currentSave;
     public SaveData save;
-    public Text[] saveNames;
-    public Text[] startSaveNames;
+    public Transform saveNames;
+    public Transform startSaveNames;
     public Text nameInput;
     public GameObject playerPref;
     public List<Transform> checkpoints = new List<Transform>();
@@ -22,20 +22,8 @@ public class GameManager : MonoBehaviour {
     void Start() {
 
         DontDestroyOnLoad(transform.gameObject);
-        for (int a = 0; a < 3; a++) {
-            if (File.Exists(Application.dataPath + "/Saves/save_file" + a.ToString() + ".xml")) {
-                XmlSerializer serializer = new XmlSerializer(typeof(SaveData));
-                FileStream stream = new FileStream(Application.dataPath + "/Saves/save_file" + a.ToString() + ".xml", FileMode.Open);
-                save = serializer.Deserialize(stream) as SaveData;
-                saveNames[a].text += save.name;
-                startSaveNames[a].text += save.name; 
-                stream.Close();
-            }
-            else {
-                saveNames[a].text = "empty save";
-                startSaveNames[a].text = "empty save";
-            }
-        }
+        GetSaveNames(saveNames);
+        GetSaveNames(startSaveNames);
     }
 
 
@@ -97,12 +85,28 @@ public class GameManager : MonoBehaviour {
         foreach(Transform check in checkpoints) {
             if(checkpoints[a].GetComponent<CheckPoint>().myCheckPoint == save.checkPoint) {
                 player = (Transform)Instantiate(playerPref, checkpoints[a].position, Quaternion.identity).transform;
+                GameObject.FindGameObjectWithTag("Camera").GetComponent<CameraBounds>().player = player.GetComponent<CharacterController>();
                 return;
             }
             else {
                 a++;
             }
 
+        }
+        GetSaveNames(GameObject.FindGameObjectWithTag("LoadObject").transform);
+    }
+    public void GetSaveNames (Transform textObj) {
+        for (int a = 0; a < 3; a++) {
+            if (File.Exists(Application.dataPath + "/Saves/save_file" + a.ToString() + ".xml")) {
+                XmlSerializer serializer = new XmlSerializer(typeof(SaveData));
+                FileStream stream = new FileStream(Application.dataPath + "/Saves/save_file" + a.ToString() + ".xml", FileMode.Open);
+                save = serializer.Deserialize(stream) as SaveData;
+                textObj.GetChild(a).GetChild(0).GetComponent<Text>().text += save.name;
+                stream.Close();
+            }
+            else {
+                textObj.GetChild(a).GetComponent<Text>().text = "empty save";
+            }
         }
     }
 }
