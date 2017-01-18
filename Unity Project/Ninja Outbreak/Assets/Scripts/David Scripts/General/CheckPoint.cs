@@ -15,9 +15,9 @@ public class CheckPoint : MonoBehaviour {
     public void OnTriggerEnter(Collider player) {
         print("check");
         if(player.transform.tag == "Player") {
-            print("PlayerCheck");
             gameManager.GetComponent<GameManager>().save.checkPoint = myCheckPoint;
             gameManager.GetComponent<GameManager>().SaveGame();
+            print("saved game");
         }
     }
 }

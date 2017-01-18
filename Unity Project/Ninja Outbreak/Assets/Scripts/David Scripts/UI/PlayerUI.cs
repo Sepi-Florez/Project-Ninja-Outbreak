@@ -27,7 +27,7 @@ public class PlayerUI : MonoBehaviour {
 	}
     public void RunTuts(string message, float alive) {
         StartCoroutine(Tutorial(message, alive));
-        print("RunCoRoutine");
+
     }
     public IEnumerator Tutorial (string message,float alive) {
         tutorialCanvasObject.GetComponent<Animator>().SetBool("On", true);

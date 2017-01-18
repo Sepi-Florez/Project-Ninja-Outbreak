@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour {
 
     }
     public void NewSave(int saveSlot) {
-        print("NewSave");
+
         SaveData newSave = new SaveData();
         currentSave = saveSlot;
         newSave.name = nameInput.text;
@@ -44,8 +44,7 @@ public class GameManager : MonoBehaviour {
 
     }
     public void SaveGame() {
-        print("save " + currentSave );
-        save.lastSave = currentSave;
+
         XmlSerializer serializer = new XmlSerializer(typeof(SaveData));
         FileStream stream = new FileStream(Application.dataPath + "/Saves/save_file" + currentSave.ToString() + ".xml", FileMode.Create);
         serializer.Serialize(stream, save);
@@ -53,15 +52,14 @@ public class GameManager : MonoBehaviour {
     }
     public void LoadGame(int saveNumber) {
         if(File.Exists(Application.dataPath + "/Saves/save_file" + saveNumber.ToString() + ".xml")) {
-            
             currentSave = saveNumber;
-            save.lastSave = currentSave ;
-
-            print("load " + currentSave);
+            print("Loading save " + saveNumber);
             XmlSerializer serializer = new XmlSerializer(typeof(SaveData));
             FileStream stream = new FileStream(Application.dataPath + "/Saves/save_file" + saveNumber.ToString() + ".xml", FileMode.Open);
-            save = serializer.Deserialize(stream) as SaveData;
+            SaveData tempSave = serializer.Deserialize(stream) as SaveData;
+            save = tempSave;
             stream.Close();
+            
             SceneManager.LoadScene(save.scene);
            
         }
@@ -80,12 +78,17 @@ public class GameManager : MonoBehaviour {
     }
     */
     public void OnSceneLoad() {
-        print("Looking for check");
+        print(save.name);
+        print(save.checkPoint);
+        print("OnSceneLoad Activated");
+        Transform LoadObj = GameObject.FindGameObjectWithTag("LoadObject").transform;
+        GetSaveNames(GameObject.FindGameObjectWithTag("LoadObject").transform);
         int a = 0;
-        foreach(Transform check in checkpoints) {
-            if(checkpoints[a].GetComponent<CheckPoint>().myCheckPoint == save.checkPoint) {
+        foreach (Transform check in checkpoints) {
+            if (checkpoints[a].GetComponent<CheckPoint>().myCheckPoint == save.checkPoint) {
                 player = (Transform)Instantiate(playerPref, checkpoints[a].position, Quaternion.identity).transform;
                 GameObject.FindGameObjectWithTag("Camera").GetComponent<CameraBounds>().player = player.GetComponent<CharacterController>();
+                checkpoints.Clear();
                 return;
             }
             else {
@@ -93,15 +96,15 @@ public class GameManager : MonoBehaviour {
             }
 
         }
-        GetSaveNames(GameObject.FindGameObjectWithTag("LoadObject").transform);
     }
+
     public void GetSaveNames (Transform textObj) {
         for (int a = 0; a < 3; a++) {
             if (File.Exists(Application.dataPath + "/Saves/save_file" + a.ToString() + ".xml")) {
                 XmlSerializer serializer = new XmlSerializer(typeof(SaveData));
                 FileStream stream = new FileStream(Application.dataPath + "/Saves/save_file" + a.ToString() + ".xml", FileMode.Open);
-                save = serializer.Deserialize(stream) as SaveData;
-                textObj.GetChild(a).GetChild(0).GetComponent<Text>().text += save.name;
+                SaveData tempSave = serializer.Deserialize(stream) as SaveData;
+                textObj.GetChild(a).GetChild(0).GetComponent<Text>().text += tempSave.name;
                 stream.Close();
             }
             else {
@@ -112,8 +115,8 @@ public class GameManager : MonoBehaviour {
 }
 [System.Serializable]
 public class SaveData {
-    public int lastSave;
-    public int scene;
-    public int checkPoint;
-    public string name;
+    public int lastSave = 0;
+    public int scene= 0;
+    public int checkPoint = 0;
+    public string name = "Ninja";
 }

@@ -13,10 +13,8 @@ public class Menu : MonoBehaviour {
                 //Application.LoadLevel("IngameMenu");
                 break;
 			case 1: 
-				print("Continue from last save");
 				break;
 			case 2:
-				print("Load Game");
 				break;
 			case 3:
 				break;
@@ -24,6 +22,7 @@ public class Menu : MonoBehaviour {
 				break;
 			case 5:
                 SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+                Destroy(GameObject.FindGameObjectWithTag("GameManager"));
                 //Application.LoadLevel("MainMenu");
                 break;
 			case 6:
